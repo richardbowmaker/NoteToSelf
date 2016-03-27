@@ -65,12 +65,12 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
 
-//        if (id == R.id.action_add)
-//        {
-//            DialogNewNote dialog = new DialogNewNote();
-//            dialog.show(getFragmentManager(), "");
-//            return true;
-//        }
+        if (id == R.id.action_add)
+        {
+            DialogNewNote dialog = new DialogNewNote();
+            dialog.show(getFragmentManager(), "");
+            return true;
+        }
 
         return super.onOptionsItemSelected(item);
     }
