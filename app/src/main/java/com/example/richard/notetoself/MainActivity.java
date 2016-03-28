@@ -44,8 +44,6 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        // comment
-
     }
 
     @Override
