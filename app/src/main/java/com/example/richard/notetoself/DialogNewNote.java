@@ -49,6 +49,7 @@ public class DialogNewNote extends DialogFragment
             @Override
             public void onClick(View v)
             {
+
                 Note newNote = new Note();
 
                 newNote.setTitle(editTitle.getText().toString());
