@@ -34,10 +34,32 @@ public class MainActivity extends AppCompatActivity
     public class NoteAdapter extends BaseAdapter
     {
         List<Note> noteList = new ArrayList<Note>();
+        private JSONSerializer mSerializer;
 
         public NoteAdapter()
         {
             super();
+            mSerializer = new JSONSerializer("NoteToSelf.json", MainActivity.this.getApplicationContext());
+
+            try
+            {
+                noteList = mSerializer.load();
+            }
+            catch (Exception e)
+            {
+                noteList = new ArrayList<Note>();
+            }
+        }
+
+        public void saveNotes()
+        {
+            try
+            {
+                mSerializer.save(noteList);
+            }
+            catch (Exception e)
+            {
+            }
         }
 
         @Override
@@ -75,9 +97,30 @@ public class MainActivity extends AppCompatActivity
 
             Note tempNote = noteList.get(position);
 
-            if (!tempNote.isImportant()) ivImportant.setVisibility(View.GONE);
-            if (!tempNote.isTodo()) ivTodo.setVisibility(View.GONE);
-            if (!tempNote.isIdea()) ivIdea.setVisibility(View.GONE);
+            if (!tempNote.isImportant())
+            {
+                ivImportant.setVisibility(View.GONE);
+            }
+            else
+            {
+                ivImportant.setVisibility(View.VISIBLE);
+            }
+            if (!tempNote.isTodo())
+            {
+                ivTodo.setVisibility(View.GONE);
+            }
+            else
+            {
+                ivTodo.setVisibility(View.VISIBLE);
+            }
+            if (!tempNote.isIdea())
+            {
+                ivIdea.setVisibility(View.GONE);
+            }
+            else
+            {
+                ivIdea.setVisibility(View.VISIBLE);
+            }
 
 
             txtTitle.setText(tempNote.getTitle());
@@ -173,6 +216,13 @@ public class MainActivity extends AppCompatActivity
         mPrefs = getSharedPreferences("Note to self", MODE_PRIVATE);
         mSound = mPrefs.getBoolean("sound", true);
         mAnimOption = mPrefs.getInt("anim option", SettingsActivity.FAST);
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        mNoteAdapter.saveNotes();
     }
 
     public void createNewNote(Note n)

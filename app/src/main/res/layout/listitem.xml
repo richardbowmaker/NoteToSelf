@@ -30,13 +30,24 @@
         android:layout_toRightOf="@+id/imageViewTodo"
         android:layout_toEndOf="@+id/imageViewTodo"/>
 
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/imageViewDummy"
+        android:visibility="invisible"
+        android:src="@drawable/ic_add_white_24dp"
+        android:longClickable="true"
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/imageViewIdea"
+        android:layout_toEndOf="@+id/imageViewIdea"/>
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="Large Text"
         android:id="@+id/txtTitle"
-        android:layout_below="@+id/imageViewImportant"
+        android:layout_below="@+id/imageViewDummy"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         />
