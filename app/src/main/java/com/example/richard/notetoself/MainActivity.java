@@ -14,6 +14,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
@@ -30,6 +32,8 @@ public class MainActivity extends AppCompatActivity
     private boolean mSound;
     private int mAnimOption;
     private SharedPreferences mPrefs;
+    private Animation mAnimFlash;
+    private Animation mFadeIn;
 
     public class NoteAdapter extends BaseAdapter
     {
@@ -96,6 +100,15 @@ public class MainActivity extends AppCompatActivity
             ImageView ivIdea = (ImageView)convertView.findViewById(R.id.imageViewIdea);
 
             Note tempNote = noteList.get(position);
+
+            if (tempNote.isImportant() && mAnimOption != SettingsActivity.NONE)
+            {
+                convertView.setAnimation(mAnimFlash);
+            }
+            else
+            {
+                convertView.setAnimation(mFadeIn);
+            }
 
             if (!tempNote.isImportant())
             {
@@ -164,16 +177,6 @@ public class MainActivity extends AppCompatActivity
 
 
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
-
-
     }
 
     @Override
@@ -216,6 +219,20 @@ public class MainActivity extends AppCompatActivity
         mPrefs = getSharedPreferences("Note to self", MODE_PRIVATE);
         mSound = mPrefs.getBoolean("sound", true);
         mAnimOption = mPrefs.getInt("anim option", SettingsActivity.FAST);
+
+        mAnimFlash = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.flash);
+        mFadeIn = AnimationUtils.loadAnimation(getApplicationContext(), R.anim.fade_in);
+
+        if (mAnimOption == SettingsActivity.FAST)
+        {
+            mAnimFlash.setDuration(100);
+        }
+        else if (mAnimOption == SettingsActivity.SLOW)
+        {
+            mAnimFlash.setDuration(1000);
+        }
+
+        mNoteAdapter.notifyDataSetChanged();
     }
 
     @Override
